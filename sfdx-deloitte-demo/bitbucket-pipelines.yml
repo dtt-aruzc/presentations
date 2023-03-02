@@ -1,0 +1,58 @@
+image:
+  name: ncino/ci-sfdx:latest
+  python: 3.7.0
+pipelines:
+  branches:
+    deploydemo:
+      - step:
+          caches:
+            - gradle
+            - maven
+            - gradlewrapper
+            - sfdx
+            - localbin
+          name: Deploy to Integration Environment (demo develop sandbox)
+          deployment: test
+          script:
+            - cd $BITBUCKET_CLONE_DIR
+            - scripts/lib/auth.sh my@email.com XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX "deploydemo"
+            - scripts/deploy.sh my@email.com "deploydemo"
+    featuredemo/*:
+      - parallel:
+          - step:
+              caches:
+                - gradle
+                - maven
+                - gradlewrapper
+                - sfdx
+                - localbin
+              name: Testing deploy
+              script:
+                - cd $BITBUCKET_CLONE_DIR
+                - scripts/run_ci_tests.sh my@email.com XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX $SFDX_PROD_CLIENT_ID $BITBUCKET_BRANCH "deploydemo"
+              services:
+                - chrome-node
+                - docker
+  tags:
+    proddemo-*:
+      - step:
+          caches:
+            - gradle
+            - maven
+            - gradlewrapper
+            - sfdx
+            - localbin
+          name: Deploy to demo production
+          deployment: production
+          script:
+            - cd $BITBUCKET_CLONE_DIR
+            - scripts/lib/auth.sh my@email.com XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX "proddemo"
+            - scripts/deploy.sh my@email.com "proddemo"
+definitions:
+  caches:
+    gradlewrapper: ~/.gradle/wrapper
+    sfdx: ~/.local/share/sfdx
+    localbin: /usr/local/bin/
+  services:
+    chrome-node:
+      image: selenium/standalone-chrome:3.5.3-boron

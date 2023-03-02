@@ -1,0 +1,8 @@
+{
+    "orgName": "deployDemo",
+    "edition": "Enterprise",
+    "country": "US",
+    "features": [
+        "AuthorApex"
+    ]
+}

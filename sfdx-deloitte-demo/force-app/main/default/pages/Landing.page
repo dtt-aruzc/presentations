@@ -1,0 +1,5 @@
+<apex:page doctype="HTML-5.0" LightningStylesheets="true" >
+    <h1>Hello guys from Deloitte ARB</h1>
+    <p>Bienvenidos a la capacitación</p>
+    <p>Como va todo? bien?!!!!!!!!!!!!!!!!!!!!</p>
+</apex:page>

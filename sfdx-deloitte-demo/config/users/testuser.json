@@ -1,0 +1,10 @@
+{
+    "FirstName": "Test",
+    "LastName": "Admin",
+    "Alias": "admin2",
+    "TimeZoneSidKey": "America/Santiago",
+    "LocaleSidKey": "en_US",
+    "LanguageLocaleKey": "en_US",
+    "profileName": "System Administrator",
+    "generatePassword": true
+}
